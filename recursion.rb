@@ -1,3 +1,5 @@
+require "byebug"
+
 def range_rec(start, stop)
     return [] if stop <= start
     [start] + range_rec(start + 1, stop)
@@ -54,14 +56,14 @@ end
 # p [1, [2], [3, [4]]].deep_dup
 
 
-    def fibs_rec(n)
-        if n <= 2
-          [0, 1].take(n)
-        else
-          fibs = fibs_rec(n - 1)
-          fibs << fibs[-2] + fibs[-1]
-        end
-      end
+def fibs_rec(n)
+    if n <= 2
+        [0, 1].take(n)
+    else
+        fibs = fibs_rec(n - 1)
+        fibs << fibs[-2] + fibs[-1]
+    end
+end
 
 # def fibs(n)
 #     arr = [0,1]
@@ -73,4 +75,54 @@ end
 #     arr
 # end
 
-p fibs(5)
+# p fibs_rec(5)
+
+def bsearch(array, target)
+    # debugger
+    return nil if array.length == 0
+    mid_index = array.length / 2
+    middle = array[mid_index]
+    compare = target <=> middle
+    if compare == 1
+        ans = bsearch(array[mid_index + 1..-1], target)
+        # debugger
+        if ans.nil?
+            nil
+        else
+            mid_index + 1 + ans
+        end
+
+    elsif compare == -1
+        bsearch(array[0...mid_index], target)
+    elsif compare == 0
+        return mid_index
+    end
+end
+
+# p bsearch([1, 2, 3], 1) # => 0
+# p bsearch([2, 3, 4, 5], 3) # => 1
+# p bsearch([2, 4, 6, 8, 10], 6) # => 2
+# p bsearch([1, 3, 4, 5, 9], 5) # => 3
+# p bsearch([1, 2, 3, 4, 5, 6], 6) # => 5
+# p bsearch([1, 2, 3, 4, 5, 6], 0) # => nil
+# p bsearch([1, 2, 3, 4, 5, 7], 6) # => nil
+
+class Array
+    def merge_sort
+        return nil if self.length == 0
+        return self if self.length == 1
+
+        mid_point = self.length / 2
+
+        left = self.take(mid_point)
+        right = self.drop(mid_point + 1)
+        
+        if left[0] > right[0]
+            right, left = left, right
+
+    end
+
+    def merge(arr_1, arr_2)
+        arr_1.concat(arr_2)
+    end
+end
